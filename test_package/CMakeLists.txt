@@ -7,6 +7,4 @@ conan_basic_setup()
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(${PROJECT_NAME} test_package.cpp)
-#target_include_directories(${PROJECT_NAME} PRIVATE ${LIBMONGOCXX_INCLUDE_DIRS})
-message(STATUS "${CONAN_LIBS}")
 target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
