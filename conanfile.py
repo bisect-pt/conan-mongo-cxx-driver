@@ -26,9 +26,6 @@ class MongoCDriverConan(ConanFile):
         tools.patch(base_path=self.source_subfolder, patch_file="diff.patch")
 
     def build(self):
-        # if self.settings.compiler == 'Visual Studio':
-            # self.output.fatal("No windows support yet. Sorry. Help a fellow out and contribute back?")
-
         cmake = CMake(self)
         cmake.definitions["BUILD_SHARED_LIBS"] = True # todo: Support static
 
