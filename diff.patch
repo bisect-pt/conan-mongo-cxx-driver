@@ -75,6 +75,17 @@ index c6f56e4..8057203 100644
 -add_subdirectory(benchmark EXCLUDE_FROM_ALL)
 +add_subdirectory(src)
 \ No newline at end of file
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 40cd480..08cd37f 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -13,5 +13,6 @@
+ # limitations under the License.
+ 
+ add_definitions(-DMONGO_CXX_DRIVER_COMPILING)
++add_definitions(-D_SCL_SECURE_NO_WARNINGS)
+ add_subdirectory(bsoncxx)
+ add_subdirectory(mongocxx)
 diff --git a/src/bsoncxx/CMakeLists.txt b/src/bsoncxx/CMakeLists.txt
 index b2d2b60..a4110fa 100644
 --- a/src/bsoncxx/CMakeLists.txt
@@ -108,6 +119,19 @@ index b2d2b60..a4110fa 100644
 -add_subdirectory(test)
 +)
 \ No newline at end of file
+diff --git a/src/bsoncxx/stdx/make_unique.hpp b/src/bsoncxx/stdx/make_unique.hpp
+index d954eae..737e76b 100644
+--- a/src/bsoncxx/stdx/make_unique.hpp
++++ b/src/bsoncxx/stdx/make_unique.hpp
+@@ -48,7 +48,7 @@ using ::boost::make_unique;
+ BSONCXX_INLINE_NAMESPACE_END
+ }  // namespace bsoncxx
+ 
+-#elif __cplusplus >= 201402L
++#elif defined(BSONCXX_POLY_USE_STD)
+ 
+ #include <memory>
+ 
 diff --git a/src/mongocxx/CMakeLists.txt b/src/mongocxx/CMakeLists.txt
 index fd5ef76..b89273e 100644
 --- a/src/mongocxx/CMakeLists.txt
