@@ -33,7 +33,7 @@ class MongoCDriverConan(ConanFile):
             cmake.definitions["CMAKE_CXX_STANDARD"] = "17"
             cmake.definitions["BSONCXX_POLY_USE_STD"] = True
         else:
-            cmake.definitions["CMAKE_CXX_STANDARD"] = "14"
+            cmake.definitions["CMAKE_CXX_STANDARD"] = "11"
             cmake.definitions["BSONCXX_POLY_USE_BOOST"] = True
             cmake.definitions["BSONCXX_POLY_USE_STD"] = False
             cmake.definitions["BSONCXX_POLY_USE_MNMLSTC"] = False
