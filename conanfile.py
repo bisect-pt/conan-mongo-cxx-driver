@@ -33,7 +33,10 @@ class MongoCDriverConan(ConanFile):
             cmake.definitions["CMAKE_CXX_STANDARD"] = "17"
             cmake.definitions["BSONCXX_POLY_USE_STD"] = True
         else:
-            self.output.fatal("Only C++17 supported for now. Support boost dependency?")
+            cmake.definitions["CMAKE_CXX_STANDARD"] = "14"
+            cmake.definitions["BSONCXX_POLY_USE_BOOST"] = True
+            cmake.definitions["BSONCXX_POLY_USE_STD"] = False
+            cmake.definitions["BSONCXX_POLY_USE_MNMLSTC"] = False
 
         if self.settings.os != 'Windows':
             cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = True
@@ -41,6 +44,10 @@ class MongoCDriverConan(ConanFile):
         cmake.configure(build_folder=self.build_subfolder)
         cmake.build()
         cmake.install()
+
+    def requirements(self):
+        if not self.options.use_17_standard:
+            self.requires('boost/[>1.66.0]@conan/stable')
 
     def package(self):
         self.copy(pattern="LICENSE*", src=self.source_subfolder)
