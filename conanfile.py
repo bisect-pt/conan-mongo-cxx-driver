@@ -37,6 +37,8 @@ class MongoCDriverConan(ConanFile):
             cmake.definitions["BSONCXX_POLY_USE_BOOST"] = True
             cmake.definitions["BSONCXX_POLY_USE_STD"] = False
             cmake.definitions["BSONCXX_POLY_USE_MNMLSTC"] = False
+            if self.settings.os == 'Windows':
+                cmake.definitions["_ENABLE_EXTENDED_ALIGNED_STORAGE"] = True
 
         if self.settings.os != 'Windows':
             cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = True
