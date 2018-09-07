@@ -79,11 +79,13 @@ diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
 index 40cd480..08cd37f 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
-@@ -13,5 +13,6 @@
+@@ -13,5 +13,8 @@
  # limitations under the License.
  
  add_definitions(-DMONGO_CXX_DRIVER_COMPILING)
 +add_definitions(-D_SCL_SECURE_NO_WARNINGS)
++add_definitions(-D_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING)
++add_definitions(-D_DISABLE_EXTENDED_ALIGNED_STORAGE)
  add_subdirectory(bsoncxx)
  add_subdirectory(mongocxx)
 diff --git a/src/bsoncxx/CMakeLists.txt b/src/bsoncxx/CMakeLists.txt
