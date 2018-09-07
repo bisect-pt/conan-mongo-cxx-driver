@@ -8,6 +8,6 @@
 
 ## Conan.io Information
 
-Please add bisect remote: `conan remote add bisect https://api.bintray.com/conan/bisect/bisect` in order tu use this package.
+Please add bisect remote: `conan remote add bisect https://api.bintray.com/conan/bisect/bisect` in order to use this package.
 
 [Bisect Public Conan repository on Bintray](https://bintray.com/bisect/bisect).
