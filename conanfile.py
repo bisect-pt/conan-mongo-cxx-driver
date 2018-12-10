@@ -11,9 +11,9 @@ class MongoCDriverConan(ConanFile):
     url = "https://github.com/mongodb/mongo-cxx-driver"
     license = "https://github.com/mongodb/mongo-cxx-driver/blob/r{0}/LICENSE".format(version)
     settings = "os", "compiler", "arch", "build_type"
-    options = {"use_17_standard": [True, False]}
-    default_options = "use_17_standard=True"
-    requires = 'mongo-c-driver/[~=1.11]@bisect/stable'
+    options = {"use_17_standard": [True, False], "use_boost": [True, False]}
+    default_options = {"use_17_standard": True, "use_boost": False}
+    requires = "mongo-c-driver/[~=1.11]@bisect/stable"
     exports_sources = ["CMakeLists.txt", "diff.patch"]
     source_subfolder = "source_subfolder"
     build_subfolder = "build_subfolder"
@@ -31,25 +31,27 @@ class MongoCDriverConan(ConanFile):
 
         if self.options.use_17_standard:
             cmake.definitions["CMAKE_CXX_STANDARD"] = "17"
-            cmake.definitions["BSONCXX_POLY_USE_STD"] = True
         else:
             cmake.definitions["CMAKE_CXX_STANDARD"] = "11"
+        if self.options.use_boost or not self.options.use_17_standard:
             cmake.definitions["BSONCXX_POLY_USE_BOOST"] = True
             cmake.definitions["BSONCXX_POLY_USE_STD"] = False
             cmake.definitions["BSONCXX_POLY_USE_MNMLSTC"] = False
-            if self.settings.os == 'Windows':
+            if self.settings.os == "Windows":
                 cmake.definitions["_ENABLE_EXTENDED_ALIGNED_STORAGE"] = True
+        else:
+            cmake.definitions["BSONCXX_POLY_USE_STD"] = True
 
-        if self.settings.os != 'Windows':
-            cmake.definitions['CMAKE_POSITION_INDEPENDENT_CODE'] = True
+        if self.settings.os != "Windows":
+            cmake.definitions["CMAKE_POSITION_INDEPENDENT_CODE"] = True
 
         cmake.configure(build_folder=self.build_subfolder)
         cmake.build()
         cmake.install()
 
     def requirements(self):
-        if not self.options.use_17_standard:
-            self.requires('boost/[>1.66.0]@conan/stable')
+        if self.options.use_boost or not self.options.use_17_standard:
+            self.requires("boost/[>=1.64.0]@conan/stable")
 
     def package(self):
         self.copy(pattern="LICENSE*", src=self.source_subfolder)
